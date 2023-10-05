@@ -57,7 +57,7 @@ while True:
     mem[2] = 1 if pygame.mouse.get_pressed()[0] else 0
 
     # Stop rendering if no interaction for 10 seconds
-    inp = tuple(mem[0:3])
+    inp = tuple(mem[:3])
     if inp != prev_input:
         prev_input_time = time.time()
     if time.time() - prev_input_time > 10:

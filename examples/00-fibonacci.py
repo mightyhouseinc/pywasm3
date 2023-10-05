@@ -46,9 +46,7 @@ def run_wasm():
     assert wasm_fib(N) == RES
 
 def fib(n: int) -> int:
-    if n < 2:
-        return n
-    return fib(n-1) + fib(n-2)
+    return n if n < 2 else fib(n-1) + fib(n-2)
 
 def run_py():
     assert fib(N) == RES

@@ -72,7 +72,7 @@ def env_before():
 def env_sleep(ms):
     global sleeping
     if not sleeping:
-        print(f"sleep...")
+        print("sleep...")
         DATA_ADDR = 16
         mem[DATA_ADDR:DATA_ADDR+8] = struct.pack("<II", DATA_ADDR+8, 1024)
         asyncify_start_unwind(DATA_ADDR)
@@ -83,6 +83,7 @@ def env_sleep(ms):
             print("timeout ended, starting to rewind the stack")
             asyncify_start_rewind(DATA_ADDR)
             main()
+
     else:
         print("...resume")
         asyncify_stop_rewind()

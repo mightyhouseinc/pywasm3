@@ -9,11 +9,7 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "true"
 
 import pygame
 
-if len(sys.argv) >= 2:
-    rom_fn = sys.argv[1]
-else:
-    rom_fn = ""
-
+rom_fn = sys.argv[1] if len(sys.argv) >= 2 else ""
 print("WasmBoy by Aaron Turner (torch2424)")
 print()
 
@@ -36,7 +32,7 @@ rom_is_color = (rom_data[0x0143] != 0)
 rom_f = io.BytesIO(rom_data)
 
 scriptpath = os.path.dirname(os.path.realpath(__file__))
-wasm_fn = os.path.join(scriptpath, f"./wasm/wasmerboy.wasm")
+wasm_fn = os.path.join(scriptpath, "./wasm/wasmerboy.wasm")
 
 # Prepare Wasm3 engine
 
@@ -56,8 +52,6 @@ surface = pygame.display.set_mode(scr_size)
 pygame.display.set_caption("Wasm3 WasmBoy")
 clock = pygame.time.Clock()
 
-# WASI emulation
-
 class FileType:
     DIR = 3
     REG = 4
@@ -68,8 +62,7 @@ class WasiErrno:
     INVAL   = 28
 
 def virtual_rom_read(size):
-    data = rom_f.read(size)
-    return data
+    return rom_f.read(size)
 
 def virtual_size_write(data):
     # Always 160x144
@@ -104,7 +97,7 @@ def virtual_input_read(size):
             (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE)):
             pygame.quit()
             sys.exit()
-        elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+        elif event.type in [pygame.KEYDOWN, pygame.KEYUP]:
             keymap = {
                 pygame.K_UP:        38,
                 pygame.K_DOWN:      40,
@@ -227,7 +220,7 @@ def fd_write(fd, iovs, iovs_len, nwritten):
         (off, size) = struct.unpack("<II", mem[iov:iov+8])
         data += mem[off:off+size].tobytes()
 
-    if fd == 1 or fd == 2:     # stdout, stderr
+    if fd in [1, 2]:     # stdout, stderr
         print(data.decode(), end='')
     elif fd in vfs_fds and vfs_fds[fd]["write"]:
         vfs_fds[fd]["write"](data)

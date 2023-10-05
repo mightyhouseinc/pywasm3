@@ -50,7 +50,7 @@ while True:
             (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE)):
             pygame.quit()
             quit()
-        elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+        elif event.type in [pygame.KEYDOWN, pygame.KEYUP]:
             if event.key == pygame.K_UP:
                 k_jump = (event.type == pygame.KEYDOWN)
             elif event.key == pygame.K_DOWN:

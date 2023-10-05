@@ -60,7 +60,7 @@ while True:
             (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE)):
             pygame.quit()
             quit()
-        elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+        elif event.type in [pygame.KEYDOWN, pygame.KEYUP]:
             is_pressed = (event.type == pygame.KEYDOWN)
             if event.key == pygame.K_UP:
                 k_up = is_pressed
@@ -75,9 +75,9 @@ while True:
     mem[1] = k_right
     mem[2] = k_up
     mem[3] = k_down
-    
+
     # Stop rendering if no interaction for 10 seconds
-    inp = tuple(mem[0:3])
+    inp = tuple(mem[:3])
     if inp != prev_input:
         prev_input_time = time.time()
     if time.time() - prev_input_time > 10:

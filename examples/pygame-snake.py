@@ -51,7 +51,7 @@ while True:
             (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE)):
             pygame.quit()
             quit()
-        elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+        elif event.type in [pygame.KEYDOWN, pygame.KEYUP]:
             is_pressed = (event.type == pygame.KEYDOWN)
             if event.key == pygame.K_LEFT:
                 k_left = is_pressed
